@@ -1,14 +1,13 @@
 const chartContainer = document.getElementById("chart-container");
+const addChartButton = document.getElementById("add-chart");
 
 const defaultTickers = ["NASDAQ:AAPL", "NASDAQ:GOOGL", "NASDAQ:AMZN", "NASDAQ:MSFT"];
 
-// Get tickers from local storage or use default tickers
 const getStoredTickers = () => {
   const storedTickers = localStorage.getItem("tickers");
   return storedTickers ? JSON.parse(storedTickers) : defaultTickers;
 };
 
-// Save tickers to local storage
 const storeTickers = (tickers) => {
   localStorage.setItem("tickers", JSON.stringify(tickers));
 };
@@ -43,8 +42,32 @@ const createChart = (symbol) => {
       storeTickers(tickers);
     },
   });
+
+  // Create the "x" button and add it to the chart div
+  const closeButton = document.createElement("button");
+  closeButton.classList.add("close-chart");
+  closeButton.textContent = "x";
+  closeButton.onclick = () => {
+    const tickers = getStoredTickers();
+    const index = tickers.indexOf(symbol);
+    if (index !== -1) {
+      tickers.splice(index, 1);
+      storeTickers(tickers);
+    }
+    chartContainer.removeChild(chartDiv);
+  };
+  chartDiv.appendChild(closeButton);
 };
 
-// Initialize charts
 const tickers = getStoredTickers();
 tickers.forEach((ticker) => createChart(ticker));
+
+addChartButton.addEventListener("click", () => {
+  const ticker = prompt("Enter the symbol (e.g., NASDAQ:AAPL):");
+  if (ticker) {
+    createChart(ticker);
+    const tickers = getStoredTickers();
+    tickers.push(ticker);
+    storeTickers(tickers);
+  }
+});
