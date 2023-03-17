@@ -1,0 +1,18 @@
+body {
+  background-color: #131722;
+  margin: 0;
+  padding: 0;
+}
+
+#chart-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.chart {
+  width: 50%;
+  height: 400px;
+  margin-bottom: 1rem;
+}
