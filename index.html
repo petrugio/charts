@@ -11,6 +11,22 @@
     <button id="add-chart">Add Chart</button>
   </nav>
   <div id="chart-container"></div>
+
+   <!-- Add Chart Modal -->
+<div id="add-chart-modal" class="modal">
+  <div class="modal-content">
+    <h4>Add Symbol</h4>
+    <input type="text" id="search-input" placeholder="Search on alphavantage" />
+    <input type="text" id="direct-input" placeholder="Input symbol directly" />
+    <button id="add-direct">Add</button>
+    <div id="search-results"></div>
+    <div id="symbols"></div>
+    <div class="modal-actions">
+      <button id="close-modal">Close</button>
+    </div>
+  </div>
+</div>
+
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
   <script src="js/scripts.js"></script>
 </body>
