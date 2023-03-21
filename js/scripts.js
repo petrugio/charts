@@ -1,5 +1,5 @@
+const chartContainer = document.getElementById("chart-container");
 document.addEventListener("DOMContentLoaded", () => {
-  const chartContainer = document.getElementById("chart-container");
   const addChartButton = document.getElementById("add-chart");
    const directInput = document.getElementById("direct-input");
   const addDirectButton = document.getElementById("add-direct");
@@ -125,3 +125,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+const heightInput = document.getElementById("height-input");
+const widthInput = document.getElementById("width-input");
+
+const updateChartLayout = () => {
+  const height = parseInt(heightInput.value);
+  const width = parseInt(widthInput.value);
+
+  chartContainer.style.gridTemplateRows = `repeat(${height}, 1fr)`;
+  chartContainer.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
+};
+
+// Update the chart layout when the height or width input values change
+heightInput.addEventListener("input", updateChartLayout);
+widthInput.addEventListener("input", updateChartLayout);
+
+// Initialize the chart layout based on the initial input values
+updateChartLayout();

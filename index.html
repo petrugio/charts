@@ -8,8 +8,18 @@
 </head>
 <body>
   <nav id="nav-menu">
-    <button id="add-chart">Add Chart</button>
+    <div class="logo-text">TradingView Multiple Charts</div>
+    <div class="nav-items">
+      <label for="height-input">Height</label>
+      <input type="number" id="height-input" min="1" max="10" step="1" value="4" />
+      <label for="width-input">Width</label>
+      <input type="number" id="width-input" min="1" max="10" step="1" value="4" />
+      <button id="settings-button">Settings</button>
+      <button id="indicators-button">Indicators</button>
+      <button id="add-chart">Add Chart</button>
+      </div>
   </nav>
+  
   <div id="chart-container"></div>
 
    <!-- Add Chart Modal -->
