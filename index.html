@@ -11,21 +11,20 @@
     <div class="logo-text">TradingView Multiple Charts</div>
     <div class="nav-items">
       <label for="height-input">Height</label>
-      <input type="number" id="height-input" min="1" max="10" step="1" value="4" />
+      <input type="number" id="height-input" min="1" max="20" step="1" value="2" />
       <label for="width-input">Width</label>
-      <input type="number" id="width-input" min="1" max="10" step="1" value="4" />
+      <input type="number" id="width-input" min="1" max="20" step="1" value="4" />
       <button id="settings-button">Settings</button>
       <button id="indicators-button">Indicators</button>
       <button id="add-chart">Add Chart</button>
       </div>
   </nav>
-  
   <div id="chart-container"></div>
-
-   <!-- Add Chart Modal -->
+  
+  <!-- Add Chart Modal -->
 <div id="add-chart-modal" class="modal">
   <div class="modal-content">
-    <h4>Add Symbol</h4>
+    <div class="modal-header">Add Symbol</div>
     <input type="text" id="search-input" placeholder="Search on alphavantage" />
     <input type="text" id="direct-input" placeholder="Input symbol directly" />
     <button id="add-direct">Add</button>
@@ -33,6 +32,56 @@
     <div id="symbols"></div>
     <div class="modal-actions">
       <button id="close-modal">Close</button>
+    </div>
+  </div>
+</div>
+  
+<!-- Settings Modal -->
+<div id="settings-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">Settings</div>
+    <div class="settings-section">
+      <label for="timezone-select">Timezone</label>
+      <select id="timezone-select">
+        <!-- Add available chart timezones options here -->
+      </select>
+      <label for="bar-type-select">Bar Type</label>
+      <select id="bar-type-select">
+        <!-- Add available bar types options here -->
+      </select>
+    </div>
+    <hr />
+    <div class="settings-section">
+      <label>
+        <input type="checkbox" id="show-details" />
+        Show Details
+      </label>
+      <label>
+        <input type="checkbox" id="show-bottom-toolbar" />
+        Show Bottom Toolbar
+      </label>
+      <label>
+        <input type="checkbox" id="hide-top-toolbar" />
+        Hide Top Toolbar (Symbol Change)
+      </label>
+      <label>
+        <input type="checkbox" id="hide-legend" />
+        Hide Legend
+      </label>
+      <label>
+        <input type="checkbox" id="hide-side-toolbar" />
+        Hide Side Toolbar
+      </label>
+      <label>
+        <input type="checkbox" id="use-dark-mode" />
+        Use Dark Mode
+      </label>
+    </div>
+    <hr />
+    <div class="modal-actions">
+      <button id="settings-done" class="modal-button">Done</button>
+      <button id="settings-cancel" class="modal-button">Cancel</button>
+      <button id="settings-reset" class="modal-button">Reset</button>
     </div>
   </div>
 </div>
