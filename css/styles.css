@@ -88,6 +88,7 @@ body {
   font-weight: bold;
   color: #ffffff;
   margin-bottom: 15px;
+  text-align: center;
 }
 
 .modal {
@@ -104,6 +105,7 @@ body {
 
 .modal-content {
   background-color: #202940;
+  color: #ffffff;
   margin: 10% auto;
   padding: 20px;
   border-radius: 4px;
@@ -193,4 +195,17 @@ body {
 
 #add-chart-modal {
   border-radius: 1rem;
+}
+
+.settings-section ul {
+  list-style: none;
+  padding: 0.5rem;
+}
+
+.settings-section li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 5px 0;
 }

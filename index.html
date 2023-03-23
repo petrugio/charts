@@ -50,34 +50,36 @@
         <!-- Add available bar types options here -->
       </select>
     </div>
-    <hr />
+   
     <div class="settings-section">
-      <label>
-        <input type="checkbox" id="show-details" />
-        Show Details
-      </label>
-      <label>
-        <input type="checkbox" id="show-bottom-toolbar" />
-        Show Bottom Toolbar
-      </label>
-      <label>
-        <input type="checkbox" id="hide-top-toolbar" />
-        Hide Top Toolbar (Symbol Change)
-      </label>
-      <label>
-        <input type="checkbox" id="hide-legend" />
-        Hide Legend
-      </label>
-      <label>
-        <input type="checkbox" id="hide-side-toolbar" />
-        Hide Side Toolbar
-      </label>
-      <label>
-        <input type="checkbox" id="use-dark-mode" />
-        Use Dark Mode
-      </label>
+      <ul>
+        <li>
+          <label for="show-details">Show details</label>
+          <input type="checkbox" id="show-details">
+        </li>
+        <li>
+          <label for="show-bottom-toolbar">Show bottom toolbar</label>
+          <input type="checkbox" id="show-bottom-toolbar">
+        </li>
+        <li>
+          <label for="hide-top-toolbar">Hide top toolbar</label>
+          <input type="checkbox" id="hide-top-toolbar">
+        </li>
+        <li>
+          <label for="hide-legend">Hide legend</label>
+          <input type="checkbox" id="hide-legend">
+        </li>
+        <li>
+          <label for="hide-side-toolbar">Hide side toolbar</label>
+          <input type="checkbox" id="hide-side-toolbar">
+        </li>
+        <li>
+          <label for="use-dark-mode">Use dark mode</label>
+          <input type="checkbox" id="use-dark-mode">
+        </li>
+      </ul>
     </div>
-    <hr />
+  
     <div class="modal-actions">
       <button id="settings-done" class="modal-button">Done</button>
       <button id="settings-cancel" class="modal-button">Cancel</button>
