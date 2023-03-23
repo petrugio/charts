@@ -1,5 +1,17 @@
 const chartContainer = document.getElementById("chart-container");
 
+const loadSettingsToForm = () => {
+  const settings = getGlobalSettings();
+  document.getElementById("timezone-select").value = settings.timezone;
+  document.getElementById("bar-type-select").value = settings.barType;
+  document.getElementById("show-details").checked = settings.showDetails;
+  document.getElementById("show-bottom-toolbar").checked = settings.showBottomToolbar;
+  document.getElementById("hide-top-toolbar").checked = settings.hideTopToolbar;
+  document.getElementById("hide-legend").checked = settings.hideLegend;
+  document.getElementById("hide-side-toolbar").checked = settings.hideSideToolbar;
+  document.getElementById("use-dark-mode").checked = settings.useDarkMode;
+};
+
 const getDefaultSettings = () => {
   return {
     timezone: "Etc/UTC",
@@ -27,10 +39,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const addChartButton = document.getElementById("add-chart");
   const directInput = document.getElementById("direct-input");
   const addDirectButton = document.getElementById("add-direct");
+  
+  loadSettingsToForm();
 
   const apiKey = "182BEAGEPNBL8AAS";
 
-  const defaultTickers = ["CME_MINI:ES1!", "CME_MINI:NQ1!", "CME_MINI:6E1!", "AMEX:TIP", "FRED:WALCL+FRED:JPNASSETS*FX_IDC:JPYUSD+ECONOMICS:CNCBBS*FX_IDC:CNYUSD+FRED:ECBASSETSW*FX:EURUSD-FRED:RRPONTSYD-FRED:WTREGEN"];
+  const defaultTickers = ["CME_MINI:ES1!", "CME_MINI:NQ1!", "CME:6E1!", "AMEX:TIP", "FRED:WALCL+FRED:JPNASSETS*FX_IDC:JPYUSD+ECONOMICS:CNCBBS*FX_IDC:CNYUSD+FRED:ECBASSETSW*FX:EURUSD-FRED:RRPONTSYD-FRED:WTREGEN"];
 
   const getStoredTickers = () => {
     const storedTickers = localStorage.getItem("tickers");
@@ -185,12 +199,11 @@ document.addEventListener("DOMContentLoaded", () => {
     setGlobalSettings(updatedSettings);
     location.reload();
   });
-});
 
-const heightInput = document.getElementById("height-input");
-const widthInput = document.getElementById("width-input");
+  const heightInput = document.getElementById("height-input");
+  const widthInput = document.getElementById("width-input");
 
-const updateChartLayout = () => {
+  const updateChartLayout = () => {
   const height = parseInt(heightInput.value);
   const width = parseInt(widthInput.value);
 
@@ -209,24 +222,25 @@ const settingsButton = document.getElementById("settings-button");
 const settingsModal = document.getElementById("settings-modal");
 const settingsDone = document.getElementById("settings-done");
 const settingsCancel = document.getElementById("settings-cancel");
+const settingsReset = document.getElementById("settings-reset");
 
+let initialSettings = null;
 settingsButton.addEventListener("click", () => {
+  initialSettings = getGlobalSettings(); // Store the initial settings
+  loadSettingsToForm(initialSettings);
   settingsModal.style.display = "block";
+  });
+
+  settingsReset.addEventListener("click", () => {
+    // Reset settings to default values and reload the page
+    setGlobalSettings(getDefaultSettings());
+    location.reload();
+  });
+
+  settingsCancel.addEventListener("click", () => {
+    settingsModal.style.display = "none";
+    // Restore the initial settings and reload the page
+    setGlobalSettings(initialSettings);
+    location.reload();
+  });
 });
-
-settingsDone.addEventListener("click", () => {
-  settingsModal.style.display = "none";
-  // Apply changes to the charts here
-});
-
-settingsCancel.addEventListener("click", () => {
-  settingsModal.style.display = "none";
-  // Revert changes if necessary
-});
-
-
-
-
-
- 
-
