@@ -10,11 +10,13 @@ const loadSettingsToForm = () => {
 	document.getElementById("hide-legend").checked = settings.hideLegend;
 	document.getElementById("hide-side-toolbar").checked = settings.hideSideToolbar;
 	document.getElementById("use-dark-mode").checked = settings.useDarkMode;
+	document.getElementById("timeframe-select").value = settings.timeframe;
 };
 
 const getDefaultSettings = () => {
 	return {
 		timezone: "Etc/UTC",
+		timeframe: "D",
 		barType: "1",
 		showDetails: true,
 		showBottomToolbar: true,
@@ -66,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		const chart = new TradingView.widget({
 			autosize: true,
 			symbol: symbol,
-			interval: "D",
+			interval: settings.timeframe,
 			timezone: settings.timezone,
 			theme: settings.useDarkMode ? "dark" : "light",
 			style: settings.barType,
@@ -194,6 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			hideSideToolbar: document.getElementById("hide-side-toolbar").checked,
 			// useSmallButtons: document.getElementById("use-small-buttons").checked,
 			useDarkMode: document.getElementById("use-dark-mode").checked,
+			timeframe: document.getElementById("timeframe-select").value,
 		};
 
 		setGlobalSettings(updatedSettings);
@@ -309,4 +312,27 @@ document.addEventListener("DOMContentLoaded", () => {
 		option.text = barType.text;
 		barTypeSelect.appendChild(option);
 	});
+
+	const timeframes = [
+		{ value: "1", text: "1 minute" },
+		{ value: "5", text: "5 minutes" },
+		{ value: "15", text: "15 minutes" },
+		{ value: "30", text: "30 minutes" },
+		{ value: "60", text: "1 hour" },
+		{ value: "240", text: "4 hour" },
+		{ value: "D", text: "1 day" },
+		{ value: "W", text: "1 week" },
+		{ value: "M", text: "1 month" },
+	  ];
+
+	const timeframeSelect = document.getElementById("timeframe-select");
+
+	timeframes.forEach((timeframe) => {
+	const option = document.createElement("option");
+	option.value = timeframe.value;
+	option.text = timeframe.text;
+	timeframeSelect.appendChild(option);
+	});
+	
+	  
 });

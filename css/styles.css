@@ -6,7 +6,7 @@ body {
 
 #chart-container {
   display: grid;
-  grid-gap: 8px;
+  grid-gap: 2px;
 }
 
 .chart {
@@ -208,4 +208,24 @@ body {
   align-items: center;
   border-bottom: 1px solid #ccc;
   padding: 5px 0;
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-field {
+  margin-bottom: 1rem;
+}
+
+.settings-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.settings-field select {
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
 }
