@@ -92,6 +92,25 @@ document.addEventListener("DOMContentLoaded", () => {
 				tickers[index] = symbol;
 				storeTickers(tickers);
 			},
+			"overrides": {
+				"mainSeriesProperties.candleStyle.upColor": "#FFFFFF",
+				"mainSeriesProperties.candleStyle.downColor": "#000000",
+				"mainSeriesProperties.candleStyle.borderUpColor": "#000000",
+				"mainSeriesProperties.candleStyle.borderDownColor": "#000000",
+				"mainSeriesProperties.candleStyle.wickUpColor": "#000000",
+				"mainSeriesProperties.candleStyle.wickDownColor": "#000000"
+				
+			  },
+			  "onReady": function() {
+				this.applyOverrides({
+				"mainSeriesProperties.candleStyle.upColor": "#FFFFFF",
+				"mainSeriesProperties.candleStyle.downColor": "#000000",
+				"mainSeriesProperties.candleStyle.borderUpColor": "#000000",
+				"mainSeriesProperties.candleStyle.borderDownColor": "#000000",
+				"mainSeriesProperties.candleStyle.wickUpColor": "#000000",
+				"mainSeriesProperties.candleStyle.wickDownColor": "#000000"
+				});
+			  }
 		});
 
 		// Create the "x" button and add it to the chart div
