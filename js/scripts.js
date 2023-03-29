@@ -176,7 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("hide-top-toolbar").checked = settings.hideTopToolbar;
 	document.getElementById("hide-legend").checked = settings.hideLegend;
 	document.getElementById("hide-side-toolbar").checked = settings.hideSideToolbar;
-	// document.getElementById("use-small-buttons").checked = settings.useSmallButtons;
 	document.getElementById("use-dark-mode").checked = settings.useDarkMode;
 	const settingsDoneButton = document.getElementById("settings-done");
 
@@ -189,7 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			hideTopToolbar: document.getElementById("hide-top-toolbar").checked,
 			hideLegend: document.getElementById("hide-legend").checked,
 			hideSideToolbar: document.getElementById("hide-side-toolbar").checked,
-			// useSmallButtons: document.getElementById("use-small-buttons").checked,
 			useDarkMode: document.getElementById("use-dark-mode").checked,
 			timeframe: document.getElementById("timeframe-select").value,
 		};
@@ -198,18 +196,36 @@ document.addEventListener("DOMContentLoaded", () => {
 		location.reload();
 	});
 
+	// Define the height and width inputs
 	const heightInput = document.getElementById("height-input");
 	const widthInput = document.getElementById("width-input");
 
+	// Get the stored values for height and width
+	const storedHeight = localStorage.getItem("height");
+	const storedWidth = localStorage.getItem("width");
+
+	// Set the initial height and width values to the stored values or defaults
+	const initialHeight = storedHeight ? parseInt(storedHeight) : 2;
+	const initialWidth = storedWidth ? parseInt(storedWidth) : 4;
+
+	// Set the height and width input values to the initial values
+	heightInput.value = initialHeight;
+	widthInput.value = initialWidth;
+
+	// Update the chart layout based on the height and width input values
 	const updateChartLayout = () => {
 		const height = parseInt(heightInput.value);
 		const width = parseInt(widthInput.value);
 
 		chartContainer.style.gridTemplateRows = `repeat(${height}, 1fr)`;
 		chartContainer.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
+
+		// Store the new height and width values in the browser
+		localStorage.setItem("height", height);
+		localStorage.setItem("width", width);
 	};
 
-	// Update the chart layout when the height or width input values change
+	// Add event listeners to update the chart layout when the height or width input values change
 	heightInput.addEventListener("input", updateChartLayout);
 	widthInput.addEventListener("input", updateChartLayout);
 
