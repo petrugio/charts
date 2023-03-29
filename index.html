@@ -25,13 +25,16 @@
 <div id="add-chart-modal" class="modal">
   <div class="modal-content">
     <div class="modal-header">Add Symbol</div>
-    <input type="text" id="search-input" placeholder="Search on alphavantage" />
-    <input type="text" id="direct-input" placeholder="Input symbol directly" />
-    <button id="add-direct">Add</button>
+    <label for="search-input">Search for a symbol:</label>
+    <input type="text" id="search-input" placeholder="Search on alphavantage (Ex: AAPL, MSFT)" />
     <div id="search-results"></div>
     <div id="symbols"></div>
+    <label for="direct-input">Directly input a symbol:</label>
+    <input type="text" id="direct-input" placeholder="Input symbol directly (Ex: AAPL, BTCUSD)" />
+    <button id="add-direct" class="modal-button">Add</button>
+   
     <div class="modal-actions">
-      <button id="close-modal">Close</button>
+      <button id="close-modal" class="modal-button">Close</button>
     </div>
   </div>
 </div>

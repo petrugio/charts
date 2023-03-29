@@ -172,30 +172,30 @@ body {
   background-color: #f1f3f6;
   border-radius: 4px;
 }
+.modal-content .search-result {
+  color: #000000;
+}
 
 .search-result:hover {
-  background-color: #e0e2e5;
+  background-color: #d3dae4;
 }
 
 .search-result {
   cursor: pointer;
   padding: 4px;
   margin-bottom: 4px;
-  background-color: #f1f3f6;
+  background-color: #b7c0cb;
   border-radius: 4px;
-}
-
-.search-result:hover {
-  background-color: #e0e2e5;
-}
-
-#search-input {
-  margin: 0.5rem;
 }
 
 #add-chart-modal {
   border-radius: 1rem;
 }
+#direct-input, #search-input {
+  height: 1.85rem
+}
+
+/* Settings modal */
 
 .settings-section ul {
   list-style: none;
