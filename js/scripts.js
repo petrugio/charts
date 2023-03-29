@@ -11,6 +11,8 @@ const loadSettingsToForm = () => {
 	document.getElementById("hide-side-toolbar").checked = settings.hideSideToolbar;
 	document.getElementById("use-dark-mode").checked = settings.useDarkMode;
 	document.getElementById("timeframe-select").value = settings.timeframe;
+	document.getElementById("hide-volume").checked = settings.hideVolume;
+
 };
 
 const getDefaultSettings = () => {
@@ -24,6 +26,7 @@ const getDefaultSettings = () => {
 		hideLegend: false,
 		hideSideToolbar: false,
 		useDarkMode: true,
+		hideVolume: false,
 	};
 };
 
@@ -76,13 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
 			hide_top_toolbar: settings.hideTopToolbar,
 			hide_legend: settings.hideLegend,
 			hide_side_toolbar: settings.hideSideToolbar,
-			
 			locale: "en",
 			toolbar_bg: "#f1f3f6",
 			enable_publishing: false,
 			allow_symbol_change: true,
 			container_id: chartDiv.id,
 			disabled_features: ["volume_force_overlay"],
+			hidevolume: settings.hideVolume ? 0 : 1,
 			onSymbolChange: (symbol, chart) => {
 				const tickers = getStoredTickers();
 				const index = tickers.indexOf(chart._options.symbol);
@@ -190,6 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			hideSideToolbar: document.getElementById("hide-side-toolbar").checked,
 			useDarkMode: document.getElementById("use-dark-mode").checked,
 			timeframe: document.getElementById("timeframe-select").value,
+			hideVolume: document.getElementById("hide-volume").checked,
 		};
 
 		setGlobalSettings(updatedSettings);
