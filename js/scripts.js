@@ -23,7 +23,6 @@ const getDefaultSettings = () => {
 		hideTopToolbar: false,
 		hideLegend: false,
 		hideSideToolbar: false,
-		// useSmallButtons: false,
 		useDarkMode: true,
 	};
 };
@@ -77,16 +76,12 @@ document.addEventListener("DOMContentLoaded", () => {
 			hide_top_toolbar: settings.hideTopToolbar,
 			hide_legend: settings.hideLegend,
 			hide_side_toolbar: settings.hideSideToolbar,
-			// toolbar: settings.useSmallButtons ? "small" : "large",
+			
 			locale: "en",
 			toolbar_bg: "#f1f3f6",
 			enable_publishing: false,
 			allow_symbol_change: true,
 			container_id: chartDiv.id,
-			// display_market_status: false,
-			// withdateranges: false,
-			// hide_side_toolbar: true,
-			// hide_legend: false,
 			disabled_features: ["volume_force_overlay"],
 			onSymbolChange: (symbol, chart) => {
 				const tickers = getStoredTickers();
