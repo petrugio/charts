@@ -394,3 +394,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	
 	  
 });
+
+const navItems = document.querySelector(".nav-items");
+const logoText = document.querySelector(".logo-text");
+
+logoText.addEventListener("click", () => {
+  navItems.classList.toggle("show");
+});
