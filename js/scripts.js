@@ -1,3 +1,4 @@
+
 const chartContainer = document.getElementById("chart-container");
 
 const loadSettingsToForm = () => {
@@ -20,12 +21,12 @@ const getDefaultSettings = () => {
 		timezone: "Etc/UTC",
 		timeframe: "D",
 		barType: "1",
-		showDetails: true,
-		showBottomToolbar: true,
+		showDetails: false,
+		showBottomToolbar: false,
 		hideTopToolbar: false,
-		hideLegend: false,
-		hideSideToolbar: false,
-		useDarkMode: true,
+		hideLegend: true,
+		hideSideToolbar: true,
+		useDarkMode: false,
 		hideVolume: false,
 	};
 };

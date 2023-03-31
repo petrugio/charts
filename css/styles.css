@@ -2,13 +2,14 @@ body {
   background-color: #131722;
   margin: 0;
   padding: 0;
+  height: 100vh;
 }
 
 #chart-container {
   display: grid;
   grid-gap: 2px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  height: 100vh;
+  height: calc(100vh - 2rem);
 }
 
 .chart {
@@ -231,5 +232,3 @@ body {
   padding: 0.5rem;
   box-sizing: border-box;
 }
-
-
