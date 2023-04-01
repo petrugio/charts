@@ -28,6 +28,7 @@ const getDefaultSettings = () => {
 		hideSideToolbar: true,
 		useDarkMode: false,
 		hideVolume: false,
+		blackWhiteCandles: false,
 	};
 };
 
@@ -93,25 +94,26 @@ document.addEventListener("DOMContentLoaded", () => {
 				tickers[index] = symbol;
 				storeTickers(tickers);
 			},
-			"overrides": {
+			"overrides": settings.blackWhiteCandles ? {
 				"mainSeriesProperties.candleStyle.upColor": "#FFFFFF",
 				"mainSeriesProperties.candleStyle.downColor": "#000000",
 				"mainSeriesProperties.candleStyle.borderUpColor": "#000000",
 				"mainSeriesProperties.candleStyle.borderDownColor": "#000000",
 				"mainSeriesProperties.candleStyle.wickUpColor": "#000000",
 				"mainSeriesProperties.candleStyle.wickDownColor": "#000000"
-				
-			  },
-			  "onReady": function() {
-				this.applyOverrides({
-				"mainSeriesProperties.candleStyle.upColor": "#FFFFFF",
-				"mainSeriesProperties.candleStyle.downColor": "#000000",
-				"mainSeriesProperties.candleStyle.borderUpColor": "#000000",
-				"mainSeriesProperties.candleStyle.borderDownColor": "#000000",
-				"mainSeriesProperties.candleStyle.wickUpColor": "#000000",
-				"mainSeriesProperties.candleStyle.wickDownColor": "#000000"
-				});
-			  }
+			} : {},
+			"onReady": function() {
+				if (settings.blackWhiteCandles) {
+					this.applyOverrides({
+						"mainSeriesProperties.candleStyle.upColor": "#FFFFFF",
+						"mainSeriesProperties.candleStyle.downColor": "#000000",
+						"mainSeriesProperties.candleStyle.borderUpColor": "#000000",
+						"mainSeriesProperties.candleStyle.borderDownColor": "#000000",
+						"mainSeriesProperties.candleStyle.wickUpColor": "#000000",
+						"mainSeriesProperties.candleStyle.wickDownColor": "#000000"
+					});
+				}
+			}
 		});
 
 		// Create the "x" button and add it to the chart div
@@ -201,6 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("hide-side-toolbar").checked = settings.hideSideToolbar;
 	document.getElementById("use-dark-mode").checked = settings.useDarkMode;
 	const settingsDoneButton = document.getElementById("settings-done");
+	document.getElementById("bw-checkbox").checked = settings.blackWhiteCandles;
 
 	settingsDoneButton.addEventListener("click", () => {
 		const updatedSettings = {
@@ -214,6 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			useDarkMode: document.getElementById("use-dark-mode").checked,
 			timeframe: document.getElementById("timeframe-select").value,
 			hideVolume: document.getElementById("hide-volume").checked,
+			blackWhiteCandles: document.getElementById("bw-checkbox").checked,
 		};
 
 		setGlobalSettings(updatedSettings);
