@@ -28,7 +28,7 @@ const getDefaultSettings = () => {
 		hideSideToolbar: true,
 		useDarkMode: false,
 		hideVolume: false,
-		blackWhiteCandles: false,
+		blackWhiteCandles: true,
 	};
 };
 
@@ -50,7 +50,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	const apiKey = "182BEAGEPNBL8AAS";
 
-	const defaultTickers = ["CME_MINI:ES1!", "CME_MINI:NQ1!", "CME:6E1!", "AMEX:TIP", "FRED:WALCL+FRED:JPNASSETS*FX_IDC:JPYUSD+ECONOMICS:CNCBBS*FX_IDC:CNYUSD+FRED:ECBASSETSW*FX:EURUSD-FRED:RRPONTSYD-FRED:WTREGEN"];
+	const defaultTickers = [
+		"INDEX:BTCUSD",
+		"INDEX:ETHUSD",
+		"CRYPTOCAP:BTC.D",
+		"OANDA:SPX500USD",
+		"OANDA:NAS100USD",
+		"OANDA:EU50EUR",
+		"CURRENCYCOM:CN50",
+		"CAPITALCOM:GOLD",
+		"KRX:KOSPI",
+		"PEPPERSTONE:VIX",
+		"AMEX:TIP",
+		"FRED:WALCL+FRED:JPNASSETS*FX_IDC:JPYUSD+ECONOMICS:CNCBBS*FX_IDC:CNYUSD+FRED:ECBASSETSW*FX:EURUSD-FRED:RRPONTSYD-FRED:WTREGEN"]
+	;
 
 	const getStoredTickers = () => {
 		const storedTickers = localStorage.getItem("tickers");
@@ -71,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			const settings = getGlobalSettings();
 			const studies = selectedIndicators.map((indicator) => indicator.value);
 
-			console.log("studies:", studies);
 			const chart = new TradingView.widget({
 				autosize: true,
 				symbol: symbol,
@@ -117,13 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
 							"mainSeriesProperties.candleStyle.wickDownColor": "#000000"
 						});
 					}
-
 					resolve(this); // Resolve the Promise with the chart instance
 				},
-
-
 			});
-
 
 			// Create the "x" button and add it to the chart div
 			const closeButton = document.createElement("button");
@@ -148,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
-
 	const tickers = getStoredTickers();
 	tickers.forEach((ticker) => createChart(ticker, []));
 
@@ -162,7 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	function showIndicatorsModal() {
 		document.getElementById("indicators-modal").style.display = "block";
 	}
-
 
 	// Hide the indicators modal
 	function hideIndicatorsModal() {
@@ -194,7 +200,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		hideIndicatorsModal();
 	}
 
-
 	function createIndicatorCheckboxes() {
 		const indicatorsContainer = document.getElementById("indicators-container");
 		indicators.forEach((indicator) => {
@@ -218,7 +223,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 		});
 	}
-
 
 	// Event listeners
 	document.getElementById("indicators-button").addEventListener("click", showIndicatorsModal);
