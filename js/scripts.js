@@ -61,81 +61,241 @@ document.addEventListener("DOMContentLoaded", () => {
 		localStorage.setItem("tickers", JSON.stringify(tickers));
 	};
 
-	const createChart = (symbol) => {
-		const chartDiv = document.createElement("div");
-		chartDiv.id = `tradingview_${symbol}`;
-		chartDiv.classList.add("chart");
-		chartContainer.appendChild(chartDiv);
+	const createChart = (symbol, selectedIndicators = []) => {
+		return new Promise((resolve) => {
+			const chartDiv = document.createElement("div");
+			chartDiv.id = `tradingview_${symbol}`;
+			chartDiv.classList.add("chart");
+			chartContainer.appendChild(chartDiv);
 
-		const settings = getGlobalSettings();
+			const settings = getGlobalSettings();
+			const studies = selectedIndicators.map((indicator) => indicator.value);
 
-		const chart = new TradingView.widget({
-			autosize: true,
-			symbol: symbol,
-			interval: settings.timeframe,
-			timezone: settings.timezone,
-			theme: settings.useDarkMode ? "dark" : "light",
-			style: settings.barType,
-			details: settings.showDetails,
-			withdateranges: settings.showBottomToolbar,
-			hide_top_toolbar: settings.hideTopToolbar,
-			hide_legend: settings.hideLegend,
-			hide_side_toolbar: settings.hideSideToolbar,
-			locale: "en",
-			toolbar_bg: "#f1f3f6",
-			enable_publishing: false,
-			allow_symbol_change: true,
-			container_id: chartDiv.id,
-			disabled_features: ["volume_force_overlay"],
-			hidevolume: settings.hideVolume ? 0 : 1,
-			onSymbolChange: (symbol, chart) => {
+			console.log("studies:", studies);
+			const chart = new TradingView.widget({
+				autosize: true,
+				symbol: symbol,
+				interval: settings.timeframe,
+				timezone: settings.timezone,
+				theme: settings.useDarkMode ? "dark" : "light",
+				style: settings.barType,
+				details: settings.showDetails,
+				withdateranges: settings.showBottomToolbar,
+				hide_top_toolbar: settings.hideTopToolbar,
+				hide_legend: settings.hideLegend,
+				hide_side_toolbar: settings.hideSideToolbar,
+				locale: "en",
+				toolbar_bg: "#f1f3f6",
+				enable_publishing: false,
+				allow_symbol_change: true,
+				container_id: chartDiv.id,
+				disabled_features: ["volume_force_overlay"],
+				hidevolume: settings.hideVolume ? 0 : 1,
+				studies: studies,
+				onSymbolChange: (symbol, chart) => {
+					const tickers = getStoredTickers();
+					const index = tickers.indexOf(chart._options.symbol);
+					tickers[index] = symbol;
+					storeTickers(tickers);
+				},
+				"overrides": settings.blackWhiteCandles ? {
+					"mainSeriesProperties.candleStyle.upColor": "#FFFFFF",
+					"mainSeriesProperties.candleStyle.downColor": "#000000",
+					"mainSeriesProperties.candleStyle.borderUpColor": "#000000",
+					"mainSeriesProperties.candleStyle.borderDownColor": "#000000",
+					"mainSeriesProperties.candleStyle.wickUpColor": "#000000",
+					"mainSeriesProperties.candleStyle.wickDownColor": "#000000"
+				} : {},
+				"onReady": function() {
+					if (settings.blackWhiteCandles) {
+						this.applyOverrides({
+							"mainSeriesProperties.candleStyle.upColor": "#FFFFFF",
+							"mainSeriesProperties.candleStyle.downColor": "#000000",
+							"mainSeriesProperties.candleStyle.borderUpColor": "#000000",
+							"mainSeriesProperties.candleStyle.borderDownColor": "#000000",
+							"mainSeriesProperties.candleStyle.wickUpColor": "#000000",
+							"mainSeriesProperties.candleStyle.wickDownColor": "#000000"
+						});
+					}
+
+					resolve(this); // Resolve the Promise with the chart instance
+				},
+
+
+			});
+
+
+			// Create the "x" button and add it to the chart div
+			const closeButton = document.createElement("button");
+			closeButton.classList.add("close-chart");
+			closeButton.textContent = "x";
+			closeButton.onclick = () => {
 				const tickers = getStoredTickers();
-				const index = tickers.indexOf(chart._options.symbol);
-				tickers[index] = symbol;
-				storeTickers(tickers);
-			},
-			"overrides": settings.blackWhiteCandles ? {
-				"mainSeriesProperties.candleStyle.upColor": "#FFFFFF",
-				"mainSeriesProperties.candleStyle.downColor": "#000000",
-				"mainSeriesProperties.candleStyle.borderUpColor": "#000000",
-				"mainSeriesProperties.candleStyle.borderDownColor": "#000000",
-				"mainSeriesProperties.candleStyle.wickUpColor": "#000000",
-				"mainSeriesProperties.candleStyle.wickDownColor": "#000000"
-			} : {},
-			"onReady": function() {
-				if (settings.blackWhiteCandles) {
-					this.applyOverrides({
-						"mainSeriesProperties.candleStyle.upColor": "#FFFFFF",
-						"mainSeriesProperties.candleStyle.downColor": "#000000",
-						"mainSeriesProperties.candleStyle.borderUpColor": "#000000",
-						"mainSeriesProperties.candleStyle.borderDownColor": "#000000",
-						"mainSeriesProperties.candleStyle.wickUpColor": "#000000",
-						"mainSeriesProperties.candleStyle.wickDownColor": "#000000"
-					});
+				const index = tickers.indexOf(symbol);
+				if (index !== -1) {
+					tickers.splice(index, 1);
+					storeTickers(tickers);
 				}
-			}
+				chartContainer.removeChild(chartDiv);
+			};
+			chartDiv.appendChild(closeButton);
 		});
-
-		// Create the "x" button and add it to the chart div
-		const closeButton = document.createElement("button");
-		closeButton.classList.add("close-chart");
-		closeButton.textContent = "x";
-		closeButton.onclick = () => {
-			const tickers = getStoredTickers();
-			const index = tickers.indexOf(symbol);
-			if (index !== -1) {
-				tickers.splice(index, 1);
-				storeTickers(tickers);
-			}
-			chartContainer.removeChild(chartDiv);
-		};
-		chartDiv.appendChild(closeButton);
 	};
 
+	function addStudiesToChart(chart, studies) {
+		studies.forEach((study) => {
+			chart.createStudy(study, false, false);
+		});
+	}
+
+
 	const tickers = getStoredTickers();
-	tickers.forEach((ticker) => createChart(ticker));
+	tickers.forEach((ticker) => createChart(ticker, []));
+
+	// Indicators
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Initialize selected indicators
+	let selectedIndicators = [];
+
+	// Show the indicators modal
+	function showIndicatorsModal() {
+		document.getElementById("indicators-modal").style.display = "block";
+	}
+
+
+	// Hide the indicators modal
+	function hideIndicatorsModal() {
+		document.getElementById("indicators-modal").style.display = "none";
+	}
+
+	async function applySelectedIndicators() {
+		// Remove all existing chart elements
+		const chartContainer = document.getElementById("chart-container");
+		while (chartContainer.firstChild) {
+			chartContainer.removeChild(chartContainer.firstChild);
+		}
+
+		// Get the selected indicators from the checkboxes
+		selectedIndicators = indicators.filter((indicator) => indicator.checked);
+
+		// Re-create chart instances with the updated indicators
+		const tickers = getStoredTickers();
+		const chartPromises = tickers.map((ticker) =>
+			createChart(ticker, selectedIndicators)
+		);
+		const charts = await Promise.all(chartPromises);
+
+		// Add the studies to the created charts
+		charts.forEach((chart) => {
+			addStudiesToChart(chart, studies);
+		});
+
+		hideIndicatorsModal();
+	}
+
+
+	function createIndicatorCheckboxes() {
+		const indicatorsContainer = document.getElementById("indicators-container");
+		indicators.forEach((indicator) => {
+			const listItem = document.createElement("li");
+
+			const checkbox = document.createElement("input");
+			checkbox.type = "checkbox";
+			checkbox.id = indicator.value;
+			checkbox.checked = indicator.checked || false; // Save the checked state
+
+			const label = document.createElement("label");
+			label.htmlFor = indicator.value;
+			label.textContent = indicator.name;
+
+			listItem.appendChild(checkbox);
+			listItem.appendChild(label);
+			indicatorsContainer.appendChild(listItem);
+
+			checkbox.addEventListener("change", () => {
+				indicator.checked = checkbox.checked; // Update the checked state in the indicators array
+			});
+		});
+	}
+
+
+	// Event listeners
+	document.getElementById("indicators-button").addEventListener("click", showIndicatorsModal);
+	document.getElementById("indicators-cancel").addEventListener("click", () => {
+		hideIndicatorsModal();
+		location.reload();
+	});
+	document.getElementById("indicators-done").addEventListener("click", () => {
+		applySelectedIndicators();
+		hideIndicatorsModal();
+	});
+
+	const indicators = [
+		{ name: 'Accumulation Distribution', value: 'ACCD@tv-basicstudies' },
+		{ name: 'Advance Decline Ratio Bars', value: 'studyADR@tv-basicstudies' },
+		{ name: 'Anchored VWAP', value: 'AnchoredVWAP@tv-basicstudies' },
+		{ name: 'Aroon', value: 'AROON@tv-basicstudies' },
+		{ name: 'Average True Range', value: 'ATR@tv-basicstudies' },
+		{ name: 'Awesome Oscillator', value: 'AwesomeOscillator@tv-basicstudies' },
+		{ name: 'Bollinger Bands', value: 'BB@tv-basicstudies' },
+		{ name: 'Bollinger Bands B', value: 'BollingerBandsR@tv-basicstudies' },
+		{ name: 'Bollinger Bands Width', value: 'BollingerBandsWidth@tv-basicstudies' },
+		{ name: 'CCI', value: 'CCI@tv-basicstudies' },
+		{ name: 'Chaikin Money Flow', value: 'CMF@tv-basicstudies' },
+		{ name: 'Chaikin Oscillator', value: 'ChaikinOscillator@tv-basicstudies' },
+		{ name: 'Chande Momentum Oscillator', value: 'chandeMO@tv-basicstudies' },
+		{ name: 'Choppiness Index', value: 'ChoppinessIndex@tv-basicstudies' },
+		{ name: 'Connors RSI', value: 'CRSI@tv-basicstudies' },
+		{ name: 'DEMA', value: 'DoubleEMA@tv-basicstudies' },
+		{ name: 'DMI', value: 'DM@tv-basicstudies' },
+		{ name: 'Donchian Channels', value: 'DONCH@tv-basicstudies' },
+		{ name: 'DPO', value: 'DetrendedPriceOscillator@tv-basicstudies' },
+		{ name: 'Ease Of Movement', value: 'EaseOfMovement@tv-basicstudies' },
+		{ name: 'EMA', value: 'MAExp@tv-basicstudies' },
+		{ name: 'ENV', value: 'ENV@tv-basicstudies' },
+		{ name: 'EFI', value: 'EFI@tv-basicstudies' },
+		{ name: 'Fisher Transform', value: 'FisherTransform@tv-basicstudies' },
+		{ name: 'Historical Volatility', value: 'HV@tv-basicstudies' },
+		{ name: 'Hull MA', value: 'hullMA@tv-basicstudies' },
+		{ name: 'Ichimoku Cloud', value: 'IchimokuCloud@tv-basicstudies' },
+		{ name: 'Keltner Channels', value: 'KLTNR@tv-basicstudies' },
+		{ name: 'MACD', value: 'MACD@tv-basicstudies' },
+		{ name: 'Momentum', value: 'MOM@tv-basicstudies' },
+		{ name: 'Money Flow', value: 'MF@tv-basicstudies' },
+		{ name: 'OBV', value: 'On_Balance_Volume@tv-basicstudies' },
+		{ name: 'PSAR', value: 'PSAR@tv-basicstudies' },
+		{ name: 'Price Oscillator', value: 'PriceOsc@tv-basicstudies' },
+		{ name: 'Price Oscillator', value: 'PriceOsc@tv-basicstudies' },
+		{ name: 'Price Volume Trend', value: 'PriceVolumeTrend@tv-basicstudies' },
+		{ name: 'Pivot Points HighLow', value: 'PivotPointsHighLow@tv-basicstudies' },
+		{ name: 'Pivot Points Standard', value: 'PivotPointsStandard@tv-basicstudies' },
+		{ name: 'Relative Vigor Index', value: 'VigorIndex@tv-basicstudies' },
+		{ name: 'Relative Volatility Index', value: 'VolatilityIndex@tv-basicstudies' },
+		{ name: 'ROC', value: 'ROC@tv-basicstudies' },
+		{ name: 'RSI', value: 'RSI@tv-basicstudies' },
+		{ name: 'SMI Ergodic Indicator Oscillator', value: 'SMIErgodicIndicator@tv-basicstudies' },
+		{ name: 'SMI Ergodic Oscillator', value: 'SMIErgodicOscillator@tv-basicstudies' },
+		{ name: 'SMA', value: 'MASimple@tv-basicstudies' },
+		{ name: 'Stochastic', value: 'Stochastic@tv-basicstudies' },
+		{ name: 'Stochastic RSI', value: 'StochasticRSI@tv-basicstudies' },
+		{ name: 'TEMA', value: 'TripleEMA@tv-basicstudies' },
+		{ name: 'TRIX', value: 'Trix@tv-basicstudies' },
+		{ name: 'Ultimate Oscillator', value: 'UltimateOsc@tv-basicstudies' },
+		{ name: 'VWMA', value: 'MAVolumeWeighted@tv-basicstudies' },
+		{ name: 'Williams Alligator', value: 'WilliamsAlligator@tv-basicstudies' },
+		{ name: 'Williams Fractals', value: 'WilliamsFractal@tv-basicstudies' },
+		{ name: 'Williams R', value: 'WilliamR@tv-basicstudies' },
+		{ name: 'WMA', value: 'MAWeighted@tv-basicstudies' }
+
+	];
+
+
+	createIndicatorCheckboxes();
+
 
 	// Add Chart Modal
+	/////////////////////////////////////////////////////////////////////////////////////////////////
 	const addChartModal = document.getElementById("add-chart-modal");
 	const closeModal = document.getElementById("close-modal");
 	const searchInput = document.getElementById("search-input");
@@ -262,7 +422,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	const settingsButton = document.getElementById("settings-button");
 	const settingsModal = document.getElementById("settings-modal");
-	const settingsDone = document.getElementById("settings-done");
 	const settingsCancel = document.getElementById("settings-cancel");
 	const settingsReset = document.getElementById("settings-reset");
 
@@ -389,15 +548,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	const timeframeSelect = document.getElementById("timeframe-select");
 
-	timeframes.forEach((timeframe) => {
-	const option = document.createElement("option");
-	option.value = timeframe.value;
-	option.text = timeframe.text;
-	timeframeSelect.appendChild(option);
+		timeframes.forEach((timeframe) => {
+		const option = document.createElement("option");
+		option.value = timeframe.value;
+		option.text = timeframe.text;
+		timeframeSelect.appendChild(option);
 	});
-	
-	  
+
 });
+
+
+// Responsive menu button
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const navItems = document.querySelector(".nav-items");
 const logoText = document.querySelector(".logo-text");
@@ -405,3 +567,10 @@ const logoText = document.querySelector(".logo-text");
 logoText.addEventListener("click", () => {
   navItems.classList.toggle("show");
 });
+
+
+
+
+
+
+

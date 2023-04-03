@@ -23,94 +23,109 @@
   </nav>
   <div id="chart-container"></div>
   
-  <!-- Add Chart Modal -->
-<div id="add-chart-modal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">Add Symbol</div>
-    <label for="search-input">Search for a symbol:</label>
-    <input type="text" id="search-input" placeholder="Search on alphavantage (Ex: AAPL, MSFT)" />
-    <div id="search-results"></div>
-    <div id="symbols"></div>
-    <label for="direct-input">Directly input a symbol:</label>
-    <input type="text" id="direct-input" placeholder="Input symbol directly (Ex: AAPL, BTCUSD)" />
-    <button id="add-direct" class="modal-button">Add</button>
-   
-    <div class="modal-actions">
-      <button id="close-modal" class="modal-button">Close</button>
+    <!-- Add Chart Modal -->
+  <div id="add-chart-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">Add Symbol</div>
+      <label for="search-input">Search for a symbol:</label>
+      <input type="text" id="search-input" placeholder="Search on alphavantage (Ex: AAPL, MSFT)" />
+      <div id="search-results"></div>
+      <div id="symbols"></div>
+      <label for="direct-input">Directly input a symbol:</label>
+      <input type="text" id="direct-input" placeholder="Input symbol directly (Ex: AAPL, BTCUSD)" />
+      <button id="add-direct" class="modal-button">Add</button>
+
+      <div class="modal-actions">
+        <button id="close-modal" class="modal-button">Close</button>
+      </div>
     </div>
   </div>
-</div>
-  
-<!-- Settings Modal -->
-<div id="settings-modal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">Settings</div>
-    <div class="settings-section">
-      <div class="settings-field">
-        <label for="timezone-select">Timezone</label>
-        <select id="timezone-select">
-          <!-- Add available chart timezones options here -->
-        </select>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">Settings</div>
+      <div class="settings-section">
+        <div class="settings-field">
+          <label for="timezone-select">Timezone</label>
+          <select id="timezone-select">
+            <!-- Add available chart timezones options here -->
+          </select>
+        </div>
+        <div class="settings-field">
+          <label for="bar-type-select">Bar Type</label>
+          <select id="bar-type-select">
+            <!-- Add available bar types options here -->
+          </select>
+        </div>
+        <div class="settings-field">
+          <label for="timeframe-select">Timeframe</label>
+          <select id="timeframe-select">
+            <!-- Add available timeframes options here -->
+          </select>
+        </div>
       </div>
-      <div class="settings-field">
-        <label for="bar-type-select">Bar Type</label>
-        <select id="bar-type-select">
-          <!-- Add available bar types options here -->
-        </select>
+
+
+      <div class="settings-section">
+        <ul>
+          <li>
+            <label for="show-details">Show details</label>
+            <input type="checkbox" id="show-details">
+          </li>
+          <li>
+            <label for="show-bottom-toolbar">Show bottom toolbar</label>
+            <input type="checkbox" id="show-bottom-toolbar">
+          </li>
+          <li>
+            <label for="hide-top-toolbar">Hide top toolbar</label>
+            <input type="checkbox" id="hide-top-toolbar">
+          </li>
+          <li>
+            <label for="hide-legend">Hide legend</label>
+            <input type="checkbox" id="hide-legend">
+          </li>
+          <li>
+            <label for="hide-side-toolbar">Hide side toolbar</label>
+            <input type="checkbox" id="hide-side-toolbar">
+          </li>
+          <li>
+            <label for="use-dark-mode">Use dark mode</label>
+            <input type="checkbox" id="use-dark-mode">
+          </li>
+          <li>
+            <label for="hide-volume">Show Volume</label>
+            <input type="checkbox" id="hide-volume">
+          </li>
+          <li>
+            <label for="bw-checkbox">Black and white candles</label>
+            <input type="checkbox" id="bw-checkbox">
+          </li>
+        </ul>
       </div>
-      <div class="settings-field">
-        <label for="timeframe-select">Timeframe</label>
-        <select id="timeframe-select">
-          <!-- Add available timeframes options here -->
-        </select>
+
+      <div class="modal-actions">
+        <button id="settings-done" class="modal-button">Done</button>
+        <button id="settings-cancel" class="modal-button">Cancel</button>
+        <button id="settings-reset" class="modal-button">Reset</button>
       </div>
-    </div>
-    
-   
-    <div class="settings-section">
-      <ul>
-        <li>
-          <label for="show-details">Show details</label>
-          <input type="checkbox" id="show-details">
-        </li>
-        <li>
-          <label for="show-bottom-toolbar">Show bottom toolbar</label>
-          <input type="checkbox" id="show-bottom-toolbar">
-        </li>
-        <li>
-          <label for="hide-top-toolbar">Hide top toolbar</label>
-          <input type="checkbox" id="hide-top-toolbar">
-        </li>
-        <li>
-          <label for="hide-legend">Hide legend</label>
-          <input type="checkbox" id="hide-legend">
-        </li>
-        <li>
-          <label for="hide-side-toolbar">Hide side toolbar</label>
-          <input type="checkbox" id="hide-side-toolbar">
-        </li>
-        <li>
-          <label for="use-dark-mode">Use dark mode</label>
-          <input type="checkbox" id="use-dark-mode">
-        </li>
-        <li>
-          <label for="hide-volume">Show Volume</label>
-          <input type="checkbox" id="hide-volume">
-        </li> 
-        <li>
-          <label for="bw-checkbox">Black and white candles</label>
-          <input type="checkbox" id="bw-checkbox">
-        </li> 
-      </ul>
-    </div>
-  
-    <div class="modal-actions">
-      <button id="settings-done" class="modal-button">Done</button>
-      <button id="settings-cancel" class="modal-button">Cancel</button>
-      <button id="settings-reset" class="modal-button">Reset</button>
     </div>
   </div>
-</div>
+
+  <!-- Indicators Modal -->
+  <div id="indicators-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">Indicators</div>
+      <div id="indicators-container">
+        <!-- Indicators will be populated with JavaScript -->
+      </div>
+      <div class="modal-actions">
+        <button id="indicators-cancel" class="modal-button">Cancel</button>
+        <button id="indicators-done" class="modal-button">Done</button>
+      </div>
+    </div>
+  </div>
+
 
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
   <script src="js/scripts.js"></script>
