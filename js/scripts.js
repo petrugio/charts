@@ -156,8 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
-	const tickers = getStoredTickers();
-	tickers.forEach((ticker) => createChart(ticker, []));
 
 	// Indicators
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -184,6 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		// Get the selected indicators from the checkboxes
 		selectedIndicators = indicators.filter((indicator) => indicator.checked);
+		setSelectedIndicators(selectedIndicators);
 
 		// Re-create chart instances with the updated indicators
 		const tickers = getStoredTickers();
@@ -202,13 +201,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function createIndicatorCheckboxes() {
 		const indicatorsContainer = document.getElementById("indicators-container");
+		const savedSelectedIndicators = getSelectedIndicators();
+
 		indicators.forEach((indicator) => {
+			// Check if the indicator is in the saved selected indicators
+			indicator.checked = savedSelectedIndicators.some(
+				(savedIndicator) => savedIndicator.value === indicator.value
+			);
+
 			const listItem = document.createElement("li");
 
 			const checkbox = document.createElement("input");
 			checkbox.type = "checkbox";
 			checkbox.id = indicator.value;
-			checkbox.checked = indicator.checked || false; // Save the checked state
+			checkbox.checked = indicator.checked || false; // Load the checked state from the indicators array
 
 			const label = document.createElement("label");
 			label.htmlFor = indicator.value;
@@ -224,6 +230,16 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
+	const getSelectedIndicators = () => {
+		const selectedIndicators = localStorage.getItem("selectedIndicators");
+		return selectedIndicators ? JSON.parse(selectedIndicators) : [];
+	};
+
+	const setSelectedIndicators = (indicators) => {
+		localStorage.setItem("selectedIndicators", JSON.stringify(indicators));
+	};
+
+
 	// Event listeners
 	document.getElementById("indicators-button").addEventListener("click", showIndicatorsModal);
 	document.getElementById("indicators-cancel").addEventListener("click", () => {
@@ -236,6 +252,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	createIndicatorCheckboxes();
+
+	const tickers = getStoredTickers();
+	const savedSelectedIndicators = getSelectedIndicators();
+	tickers.forEach((ticker) => createChart(ticker, savedSelectedIndicators));
 
 
 	// Add Chart Modal
