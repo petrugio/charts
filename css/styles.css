@@ -305,3 +305,9 @@ body {
   }
 
 }
+
+@media (max-width: 450px) {
+  .modal-content {
+    width: 80%;
+  }
+}
