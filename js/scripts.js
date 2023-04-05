@@ -357,8 +357,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	const storedWidth = localStorage.getItem("width");
 
 	// Set the initial height and width values to the stored values or defaults
-	const initialHeight = storedHeight ? parseInt(storedHeight) : 2;
-	const initialWidth = storedWidth ? parseInt(storedWidth) : 4;
+	const defaultHeight = 3;
+	const defaultWidth = 4;
+
+	const initialHeight = storedHeight ? parseInt(storedHeight) : defaultHeight;
+	const initialWidth = storedWidth ? parseInt(storedWidth) : defaultWidth;
 
 	// Set the height and width input values to the initial values
 	heightInput.value = initialHeight;
@@ -388,6 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const settingsModal = document.getElementById("settings-modal");
 	const settingsCancel = document.getElementById("settings-cancel");
 	const settingsReset = document.getElementById("settings-reset");
+	const resetLayoutButton = document.getElementById("reset-layout");
 
 	let initialSettings = null;
 	settingsButton.addEventListener("click", () => {
@@ -406,6 +410,13 @@ document.addEventListener("DOMContentLoaded", () => {
 		settingsModal.style.display = "none";
 		// Restore the initial settings and reload the page
 		setGlobalSettings(initialSettings);
+		location.reload();
+	});
+
+	resetLayoutButton.addEventListener("click", () => {
+		storeTickers(defaultTickers);
+		localStorage.setItem("height", defaultHeight);
+		localStorage.setItem("width", defaultWidth);
 		location.reload();
 	});
 
