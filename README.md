@@ -1,5 +1,6 @@
 ### The goal of this project is to create a customizable financial markets overview dashboard.
 
+Deployed project : [Link](https://petrugio.github.io/charts/)
 
 ![charts.png](images/charts.png)
 
