@@ -243,6 +243,8 @@ body {
 #indicators-container {
   list-style-type: none;
   padding: 0;
+  height: 300px;
+  overflow-y: auto;
 }
 
 #indicators-container li {
