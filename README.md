@@ -6,7 +6,7 @@ Deployed project : [Link](https://petrugio.github.io/charts/)
 
 ![add_chart.png](images/add_chart.png)
 
-![settings.png](images/settings.png)
+![settings.png](images/settings.png?t=1680694696726)
 
 ![indicators.png](images/indicators.png)
 
