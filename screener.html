@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TradingView Screener</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+</head>
+<body>
+  <nav id="nav-menu">
+    <div class="logo-text">TMC Screener</div>
+    <div class="nav-items">
+      <button id="settings-button">Settings</button>
+      <button id="filters-button">Filters</button>
+      <button id="add-screener">Add Screener</button>
+    </div>
+  </nav>
+  <div id="screener-container">
+    <!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+    </div>
+    <!-- TradingView Widget END -->
+  </div>
+
+  <!-- Add Screener Modal -->
+  <div id="add-screener-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">Add Screener</div>
+      <label for="search-input">Search for a screener:</label>
+      <input type="text" id="search-input" placeholder="Search (Ex: Technology, Finance)" />
+      <div id="search-results"></div>
+      <div id="screeners"></div>
+      <button id="add-direct" class="modal-button">Add</button>
+
+      <div class="modal-actions">
+        <button id="close-modal" class="modal-button">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal">
+    <!-- You can customize this modal similarly to the previous one -->
+  </div>
+
+  <!-- Filters Modal -->
+  <div id="filters-modal" class="modal">
+    <!-- You can add options to filter screeners here -->
+  </div>
+
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js"></script>
+  <script src="js/screener.js"></script>
+</body>
+</html>
