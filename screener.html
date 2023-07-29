@@ -1,57 +1,131 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TradingView Screener</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" type="image/x-icon" href="images/favicon.ico">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <title>TMC Screener</title>
+  <style>
+    #container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .resize-button {
+      position: fixed;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: rgba(173, 216, 230, 0.5); /* light blue, 50% opacity */
+      color: white;
+      text-align: center;
+      line-height: 50px;
+      cursor: pointer;
+    }
+    #button-up {
+      bottom: 150px; /* Adjust this value to move the button up or down */
+    }
+    #button-down {
+      bottom: 80px; /* Adjust this value to move the button up or down */
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
   <nav id="nav-menu">
     <div class="logo-text">TMC Screener</div>
     <div class="nav-items">
-      <button id="settings-button">Settings</button>
-      <button id="filters-button">Filters</button>
-      <button id="add-screener">Add Screener</button>
+      <a href="index.html"><button>Home</button></a>
     </div>
   </nav>
-  <div id="screener-container">
-    <!-- TradingView Widget BEGIN -->
-    <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-    </div>
-    <!-- TradingView Widget END -->
-  </div>
-
-  <!-- Add Screener Modal -->
-  <div id="add-screener-modal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">Add Screener</div>
-      <label for="search-input">Search for a screener:</label>
-      <input type="text" id="search-input" placeholder="Search (Ex: Technology, Finance)" />
-      <div id="search-results"></div>
-      <div id="screeners"></div>
-      <button id="add-direct" class="modal-button">Add</button>
-
-      <div class="modal-actions">
-        <button id="close-modal" class="modal-button">Close</button>
+  <div id="container">
+    <!-- TradingView Chart Widget BEGIN -->
+    <div id="div1" style="height: 40%; overflow: auto;">
+      <div class="tradingview-widget-container">
+        <div id="tradingview_de558"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+        <script type="text/javascript">
+        new TradingView.widget(
+        {
+        "autosize": true,
+        "symbol": "NASDAQ:AAPL",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "light",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "hide_side_toolbar": false,
+        "allow_symbol_change": true,
+        "details": true,
+        "hotlist": true,
+        "calendar": true,
+        "container_id": "tradingview_de558"
+      }
+        );
+        </script>
       </div>
     </div>
+    <!-- TradingView Chart Widget END -->
+
+    <!-- TradingView Screener Widget BEGIN -->
+    <div id="div2" style="height: 60%; overflow: auto;">
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
+        {
+        "width": "100%",
+        "height": "100%",
+        "defaultColumn": "overview",
+        "defaultScreen": "most_capitalized",
+        "market": "america",
+        "showToolbar": true,
+        "colorTheme": "light",
+        "locale": "en",
+        "largeChartUrl": "https://petrugio-charts-imgr9hic273.ws-eu102.gitpod.io/test/"
+        }
+        </script>
+      </div>
+    </div>
+    <!-- TradingView Screener Widget END -->
   </div>
 
-  <!-- Settings Modal -->
-  <div id="settings-modal" class="modal">
-    <!-- You can customize this modal similarly to the previous one -->
-  </div>
+  <div id="button-up" class="resize-button">&#9650;</div> <!-- Up arrow -->
+  <div id="button-down" class="resize-button">&#9660;</div> <!-- Down arrow -->
 
-  <!-- Filters Modal -->
-  <div id="filters-modal" class="modal">
-    <!-- You can add options to filter screeners here -->
-  </div>
+  <script>
+    $(function() {
+      var div1 = $('#div1');
+      var div2 = $('#div2');
+      var resizeAmount = 2; // percent
 
-  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js"></script>
+      $('#button-up').click(function() {
+        var div1Height = div1.height();
+        var div2Height = div2.height();
+        var containerHeight = div1Height + div2Height;
+        var resizePixels = (resizeAmount / 100) * containerHeight;
+        if (div1Height - resizePixels > 0 && div2Height + resizePixels < containerHeight) {
+          div1.height(div1Height - resizePixels);
+          div2.height(div2Height + resizePixels);
+        }
+      });
+
+      $('#button-down').click(function() {
+        var div1Height = div1.height();
+        var div2Height = div2.height();
+        var containerHeight = div1Height + div2Height;
+        var resizePixels = (resizeAmount / 100) * containerHeight;
+        if (div1Height + resizePixels < containerHeight && div2Height - resizePixels > 0) {
+          div1.height(div1Height + resizePixels);
+          div2.height(div2Height - resizePixels);
+        }
+      });
+    });
+  </script>
   <script src="js/screener.js"></script>
+
 </body>
 </html>
