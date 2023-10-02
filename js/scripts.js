@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				allow_symbol_change: true,
 				container_id: chartDiv.id,
 				disabled_features: ["volume_force_overlay"],
-				hidevolume: settings.hideVolume ? 0 : 1,
+				hide_volume: settings.hideVolume ? 0 : 1,
 				studies: studies,
 				onSymbolChange: (symbol, chart) => {
 					const tickers = getStoredTickers();
